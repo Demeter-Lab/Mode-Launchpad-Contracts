@@ -1,4 +1,13 @@
 // SPDX-License-Identifier: SEE LICENSE IN LICENSE
+
+// *$* 1. getter function for details in each pad (time, etc)
+// *$* 2. getter function for max and min cap for each pool
+// -> api to convert ETH value to USD value
+// *$* 3. getter function for the amount each user has purchased/invested
+// *$* 4. getter function for the amount of unsold tokens
+// *$* 5. getter function for the price of each pool
+// *$* 6. getter function for the ETH balance of each pool
+
 pragma solidity ^0.8.0;
 
 import "./LaunchPad.sol";
@@ -7,7 +16,7 @@ contract Register {
     function register(address _recipient) public returns (uint256 tokenId) {}
 }
 
-contract DeployFactory {
+contract LaunchPadFactory {
     mapping(uint256 => address) public createdLaunchPools;
     uint256 public poolCount;
 
@@ -21,6 +30,7 @@ contract DeployFactory {
         sfsContract.register(msg.sender); //Registers this contract and assigns the NFT to the owner of this contract
     }
 
+    // factory deploy function
     function deploy(
         address _tokenAddress,
         uint256 _price,
@@ -69,4 +79,62 @@ contract DeployFactory {
 
         emit LaunchPoolCreated(launchPoolAddress);
     }
+
+    // *****************************************************************************//
+    //////////////////////////// VIEW FUNCTIONS //////////////////////////////////////
+
+    // 01. NOT YET TESTED
+    function getPadDuration(
+        address _padAddress
+    ) external view returns (uint256) {
+        uint256 saleDuration = Launchpad(_padAddress).saleDurationInSeconds();
+        return saleDuration;
+    }
+
+    // 02. NOT YET TESTED
+    function getPadMaxCap(address _padAddress) external view returns (uint256) {
+        uint256 padMaxCap = Launchpad(_padAddress).maxInvestment();
+        return padMaxCap;
+    }
+
+    // 03. NOT YET TESTED
+    function getPadMinCap(address _padAddress) external view returns (uint256) {
+        uint256 padMinCap = Launchpad(_padAddress).minInvestment();
+        return padMinCap;
+    }
+
+    // 04. NOT YET TESTED
+    function getUnsoldTokensAmount(
+        address _padAddress
+    ) external view returns (uint256) {
+        uint256 unsoldTokens = Launchpad(_padAddress).getUnsoldTokens();
+        return unsoldTokens;
+    }
+
+    // 05. NOT YET TESTED
+    function getUserTokenPurchase(
+        address _padAddress
+    ) external view returns (uint256) {
+        uint256 userTokenPurchase = Launchpad(_padAddress).getUserTokenPurchase(
+            msg.sender
+        );
+        return userTokenPurchase;
+    }
+
+    // 06. NOT YET TESTED
+    function getPadPrice(address _padAddress) external view returns (uint256) {
+        uint256 padPrice = Launchpad(_padAddress).tokenPrice();
+        return padPrice;
+    }
+
+    // 07. NOT YET TESTED
+    function getPadContractBalance(
+        address _padAddress
+    ) external view returns (uint256) {
+        uint256 padBalance = Launchpad(_padAddress).getContractBalance();
+        return padBalance;
+    }
+
+    // *****************************************************************************//
+    // //////////////////////////////////////////////////////////////////////////// //
 }
