@@ -66,6 +66,7 @@ contract Launchpad {
         isSaleActive = false;
     }
 
+    //////////////////////////// VIEW FUNCTIONS //////////////////////////////////////
     // Add a new function to check if the sale duration has elapsed.
     function isSaleDurationElapsed() public view returns (bool) {
         return
@@ -73,6 +74,27 @@ contract Launchpad {
             block.timestamp >= saleStartTime + saleDurationInSeconds;
     }
 
+    function getUserTokenPurchase(
+        address user
+    ) external view returns (uint256) {
+        return tokensPurchased[user];
+    }
+
+    function getUnsoldTokens() external view returns (uint256) {
+        uint256 unsoldTokens = memeCoinToken.balanceOf(address(this)).sub(
+            totalTokensSold
+        );
+        return unsoldTokens;
+    }
+
+    function getContractBalance() external view returns (uint256) {
+        uint256 balance = address(this).balance;
+        return balance;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////
+
+    ////////////////////////// WRITABLE FUNCTIONS ////////////////////////////////////
     function startSale() external onlyOwner {
         require(isSaleActive, "Sale is already active");
         isSaleActive = true;
