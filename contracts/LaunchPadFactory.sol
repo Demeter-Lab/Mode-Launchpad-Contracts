@@ -1,13 +1,5 @@
 // SPDX-License-Identifier: SEE LICENSE IN LICENSE
 
-// *$* 1. getter function for details in each pad (time, etc)
-// *$* 2. getter function for max and min cap for each pool
-// -> api to convert ETH value to USD value
-// *$* 3. getter function for the amount each user has purchased/invested
-// *$* 4. getter function for the amount of unsold tokens
-// *$* 5. getter function for the price of each pool
-// *$* 6. getter function for the ETH balance of each pool
-
 pragma solidity ^0.8.0;
 
 import "./LaunchPad.sol";
