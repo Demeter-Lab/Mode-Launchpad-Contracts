@@ -75,7 +75,14 @@ contract LaunchPadFactory {
     // *****************************************************************************//
     //////////////////////////// VIEW FUNCTIONS //////////////////////////////////////
 
-    // 01. NOT YET TESTED
+    // function to get the launchpad name
+    function getPadName(
+        address _padAddress
+    ) external view returns (string memory) {
+        return Launchpad(_padAddress).poolName();
+    }
+
+    // function to get the launchpad duration
     function getPadDuration(
         address _padAddress
     ) external view returns (uint256) {
@@ -83,19 +90,19 @@ contract LaunchPadFactory {
         return saleDuration;
     }
 
-    // 02. NOT YET TESTED
+    // function to get the pad maximum cap
     function getPadMaxCap(address _padAddress) external view returns (uint256) {
         uint256 padMaxCap = Launchpad(_padAddress).maxInvestment();
         return padMaxCap;
     }
 
-    // 03. NOT YET TESTED
+    // function to get the pad minimum cap
     function getPadMinCap(address _padAddress) external view returns (uint256) {
         uint256 padMinCap = Launchpad(_padAddress).minInvestment();
         return padMinCap;
     }
 
-    // 04. NOT YET TESTED
+    // function to get unsold tokens
     function getUnsoldTokensAmount(
         address _padAddress
     ) external view returns (uint256) {
@@ -103,7 +110,6 @@ contract LaunchPadFactory {
         return unsoldTokens;
     }
 
-    // 05. NOT YET TESTED
     function getUserTokenPurchase(
         address _padAddress
     ) external view returns (uint256) {
@@ -113,13 +119,11 @@ contract LaunchPadFactory {
         return userTokenPurchase;
     }
 
-    // 06. NOT YET TESTED
     function getPadPrice(address _padAddress) external view returns (uint256) {
         uint256 padPrice = Launchpad(_padAddress).tokenPrice();
         return padPrice;
     }
 
-    // 07. NOT YET TESTED
     function getPadContractBalance(
         address _padAddress
     ) external view returns (uint256) {
