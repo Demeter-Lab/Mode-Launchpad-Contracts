@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.0;
 
-import "./LaunchPad.sol";
+import "./Launchpad.sol";
 
 contract Register {
     function register(address _recipient) public returns (uint256 tokenId) {}
