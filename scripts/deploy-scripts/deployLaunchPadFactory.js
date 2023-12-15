@@ -1,11 +1,11 @@
 const hre = require("hardhat");
 
 async function main() {
-  const factory = await hre.ethers.deployContract("LaunchPadFactory", []);
   console.log("Deploying Factory contract....");
-  await factory.waitForDeployment();
+  const factory = await hre.ethers.deployContract("LaunchPadFactoryNoSFS", []);
+  await factory.deployed();
 
-  console.log(`Factory contract deployed to: \nAddress: ${factory.target}`);
+  console.log(`Factory contract deployed to: \nAddress: ${factory.address}`);
 }
 
 main().catch((error) => {
