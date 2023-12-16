@@ -2,7 +2,12 @@ require("@nomicfoundation/hardhat-toolbox");
 // require("@nomicfoundation/hardhat-verify");
 require("dotenv").config();
 
-const { PRIVATE_KEY, MODE_TESTNET_RPC_URL, MODE_MAINNET_RPC_URL } = process.env;
+const {
+  PRIVATE_KEY,
+  MODE_TESTNET_RPC_URL,
+  MODE_MAINNET_RPC_URL,
+  API_URL_SEPOLIA,
+} = process.env;
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
@@ -15,7 +20,12 @@ module.exports = {
     },
     modetestnet: {
       url: MODE_TESTNET_RPC_URL,
-      accounts: [`0x${PRIVATE_KEY}`],
+      chainId: 919,
+      accounts: [PRIVATE_KEY],
+    },
+    sepolia: {
+      url: API_URL_SEPOLIA,
+      accounts: [PRIVATE_KEY],
     },
   },
   // etherscan: {
