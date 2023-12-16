@@ -1,11 +1,9 @@
-/**
- * sample pad address deployed on sepolia
- */
+// sample pad address deployed on sepolia
 const padAddress = "0x71B7319466efB8c0Ed8f9C8E0565fB44F7688453";
 
-// function to deploy/create a new LaunchPad
 /**
  *
+// function to deploy/create a new LaunchPad
  * @param {*} FactoryContract PASS THE INSTANTIALIZED Factory as an argument
  * @param {*} tokenAddress ERC20 token to be launched in the pad
  * @param {*} price price at which token is to be sold
@@ -14,7 +12,7 @@ const padAddress = "0x71B7319466efB8c0Ed8f9C8E0565fB44F7688453";
  * @param {*} poolName launchpad name
  * @param {*} durationInDays number of days to run launchpad
  */
-async function deployNewLaunchPad(
+export async function deployNewLaunchPad(
   FactoryContract,
   tokenAddress,
   price,
@@ -43,7 +41,12 @@ async function deployNewLaunchPad(
   }
 }
 
-async function getPadAddress(FactoryContract, padNumber) {
+/**
+ * @param {*} FactoryContract PASS THE INSTANTIALIZED Factory as an argument
+ * @param {*} padNumber the index number mapped to the launchpad contract
+ * @returns launchpad's Contract Address
+ */
+export async function getPadAddress(FactoryContract, padNumber) {
   try {
     // call the getPadAddress function on the factory contract
     const padAddress = await FactoryContract.getPadAddress(padNumber);
@@ -55,7 +58,12 @@ async function getPadAddress(FactoryContract, padNumber) {
   }
 }
 
-async function getNoOfLaunchPads(FactoryContract) {
+/**
+ * function to get number of launchpads created
+ * @param {*} FactoryContract PASS THE INSTANTIALIZED Factory as an argument
+ * @returns {number} number of launchpads created
+ */
+export async function getNoOfLaunchPads(FactoryContract) {
   try {
     console.log("Fetching No of Launchpads");
 
@@ -70,7 +78,13 @@ async function getNoOfLaunchPads(FactoryContract) {
   }
 }
 
-async function getPadName(FactoryContract, padAddress) {
+/**
+ * function to get the launchpad name
+ * @param {*} FactoryContract PASS THE INSTANTIALIZED Factory as an argument
+ * @param {*} padAddress launchpad CA
+ * @returns {string} launchpad name
+ */
+export async function getPadName(FactoryContract, padAddress) {
   try {
     console.log("Fetching PadName.......");
 
@@ -84,7 +98,13 @@ async function getPadName(FactoryContract, padAddress) {
   }
 }
 
-async function getPadDuration(FactoryContract, padAddress) {
+/**
+ * function to get the launchpad duration
+ * @param {*} FactoryContract PASS THE INSTANTIALIZED Factory as an argument
+ * @param {*} padAddress launchpad CA
+ * @returns {number} pad duration
+ */
+export async function getPadDuration(FactoryContract, padAddress) {
   try {
     console.log("Fetching PadDuration.......");
 
@@ -97,7 +117,7 @@ async function getPadDuration(FactoryContract, padAddress) {
   }
 }
 
-async function getPadMaxCap(FactoryContract, padAddress) {
+export async function getPadMaxCap(FactoryContract, padAddress) {
   try {
     console.log("Fetching PadMaxCap.......");
 
@@ -110,7 +130,7 @@ async function getPadMaxCap(FactoryContract, padAddress) {
   }
 }
 
-async function getPadMinCap(FactoryContract, padAddress) {
+export async function getPadMinCap(FactoryContract, padAddress) {
   try {
     console.log("Fetching PadMinCap.......");
 
@@ -123,7 +143,7 @@ async function getPadMinCap(FactoryContract, padAddress) {
   }
 }
 
-async function getUnsoldTokensAmount(FactoryContract, padAddress) {
+export async function getUnsoldTokensAmount(FactoryContract, padAddress) {
   try {
     console.log("Fetching PadMinCap.......");
 
@@ -136,7 +156,7 @@ async function getUnsoldTokensAmount(FactoryContract, padAddress) {
   }
 }
 
-async function getUserTokenPurchase(FactoryContract, padAddress) {
+export async function getUserTokenPurchase(FactoryContract, padAddress) {
   try {
     console.log("Fetching amount Of Tokens Purchased By User.......");
 
@@ -150,7 +170,7 @@ async function getUserTokenPurchase(FactoryContract, padAddress) {
   }
 }
 
-async function getPadPrice(FactoryContract, padAddress) {
+export async function getPadPrice(FactoryContract, padAddress) {
   try {
     console.log("Fetching PadPrice.......");
 
@@ -163,7 +183,7 @@ async function getPadPrice(FactoryContract, padAddress) {
   }
 }
 
-async function getPadContractBalance(FactoryContract, padAddress) {
+export async function getPadContractBalance(FactoryContract, padAddress) {
   try {
     console.log("Fetching PadContractBalance.......");
 
@@ -177,5 +197,3 @@ async function getPadContractBalance(FactoryContract, padAddress) {
     console.log(err.message);
   }
 }
-
-module.exports = {};
