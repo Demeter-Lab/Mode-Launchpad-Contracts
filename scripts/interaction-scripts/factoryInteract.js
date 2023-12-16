@@ -271,7 +271,7 @@ async function getPadPrice(padAddress) {
     console.log(err.message);
   }
 }
-getPadPrice(padAddress);
+// getPadPrice(padAddress);
 
 async function getPadContractBalance(padAddress) {
   try {
@@ -296,6 +296,6 @@ async function getPadContractBalance(padAddress) {
     console.log(err.message);
   }
 }
-getPadContractBalance(padAddress);
+// getPadContractBalance(padAddress);
 
 module.exports = {};
