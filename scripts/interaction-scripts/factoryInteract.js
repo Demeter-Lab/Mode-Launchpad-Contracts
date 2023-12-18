@@ -12,7 +12,8 @@ const {
   SEPOLIA_TESTNET_TOKEN_CA,
 } = require("../../constants/constants");
 
-const padAddress = "0x71B7319466efB8c0Ed8f9C8E0565fB44F7688453";
+// const padAddress = "0xceb09DCdd87476946221a5AE56f20Fdda377BB08";
+const padAddress = "0x8b127f3B2f5Ba69e731fa31CBdc03e8C8Fc26D16";
 
 // function to deploy/create a new LaunchPad
 /**
@@ -26,6 +27,7 @@ const padAddress = "0x71B7319466efB8c0Ed8f9C8E0565fB44F7688453";
  */
 async function deployNewLaunchPad(
   tokenAddress,
+  owner,
   price,
   minInvestment,
   maxInvestment,
@@ -41,19 +43,20 @@ async function deployNewLaunchPad(
       FactoryABI,
       signer
     );
-    console.log("Hey 1");
+
+    console.log("Deploying LaunchPad.......");
+
     // call the deploy function on the factory contract
     const deployLaunchPad = await FactoryContract.deploy(
       tokenAddress,
+      owner,
       price,
       minInvestment,
       maxInvestment,
       poolName,
       durationInDays
     );
-    console.log("Hello 2");
 
-    console.log("Deploying LaunchPad.......");
     await deployLaunchPad.wait(1);
 
     console.log(deployLaunchPad.hash);
@@ -62,7 +65,15 @@ async function deployNewLaunchPad(
   }
 }
 
-// deployNewLaunchPad(SEPOLIA_TESTNET_TOKEN_CA, 2, 5, 15, "Launch Mode", 7);
+// deployNewLaunchPad(
+//   "0x5312296ad75C7f95A9e19bD8adF1617402b3e703",
+//   SEPOLIA_TESTNET_TOKEN_CA,
+//   1,
+//   1,
+//   5,
+//   "Launch Mode",
+//   1
+// );
 
 async function getPadAddress(padNumber) {
   try {
@@ -74,7 +85,7 @@ async function getPadAddress(padNumber) {
       FactoryABI,
       signer
     );
-    console.log("Hey 1");
+    console.log("Getting pad address...");
 
     // call the getPadAddress function on the factory contract
     const padAddress = await FactoryContract.getPadAddress(padNumber);
@@ -85,7 +96,7 @@ async function getPadAddress(padNumber) {
     console.log(err.message);
   }
 }
-// getPadAddress(0);
+// getPadAddress(1);
 
 async function getNoOfLaunchPads() {
   try {
@@ -97,18 +108,19 @@ async function getNoOfLaunchPads() {
       FactoryABI,
       signer
     );
-    console.log("Fetching No of Launchpads");
+    console.log("Fetching No of Launchpads...");
 
     // call the getNoOfLaunchPads function on the factory contract
     const totalNoOfPads = await FactoryContract.getNoOfLaunchPads();
-    // await totalNoOfPads;
+    await totalNoOfPads;
 
-    console.log("Log:", totalNoOfPads);
-    return totalNoOfPads;
+    console.log(Number(totalNoOfPads));
+    return Number(totalNoOfPads);
   } catch (err) {
     console.error(err.message);
   }
 }
+getNoOfLaunchPads();
 
 async function getPadName(padAddress) {
   try {
@@ -297,5 +309,29 @@ async function getPadContractBalance(padAddress) {
   }
 }
 // getPadContractBalance(padAddress);
+
+// getPadSaleStatus
+async function getPadSaleStatus() {
+  try {
+    const [signer] = await hre.ethers.getSigners();
+
+    // instantialize the factory contract
+    const FactoryContract = new ethers.Contract(
+      SEPOLIA_LAUNCHPAD_FACTORY_CA,
+      FactoryABI,
+      signer
+    );
+
+    // call the getpadSaleStatus function on the factory contract
+    console.log("Calling padSaleStatus...");
+    const padSaleStatus = await FactoryContract.getPadSaleStatus(padAddress);
+
+    console.log(padSaleStatus);
+    return padSaleStatus;
+  } catch (err) {
+    console.log(err.message);
+  }
+}
+// getPadSaleStatus(padAddress);
 
 module.exports = {};
