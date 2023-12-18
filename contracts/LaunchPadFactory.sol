@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: SEE LICENSE IN LICENSE
+// SPDX-License-Identifier: MIT
 
 pragma solidity ^0.8.0;
 
@@ -24,6 +24,7 @@ contract LaunchPadFactory {
 
     // factory deploy function
     function deploy(
+        address _owner,
         address _tokenAddress,
         uint256 _price,
         uint256 _minInvestment,
@@ -34,6 +35,7 @@ contract LaunchPadFactory {
         bytes memory bytecode = type(Launchpad).creationCode;
         bytes32 salt = keccak256(
             abi.encodePacked(
+                _owner,
                 _tokenAddress,
                 _price,
                 _minInvestment,
@@ -58,6 +60,7 @@ contract LaunchPadFactory {
         }
 
         Launchpad(launchPoolAddress).initializer(
+            _owner,
             _tokenAddress,
             _price,
             _minInvestment,
@@ -74,6 +77,16 @@ contract LaunchPadFactory {
 
     // *****************************************************************************//
     //////////////////////////// VIEW FUNCTIONS //////////////////////////////////////
+
+    // function to get pad contract address
+    function getPadAddress(uint256 padNumber) external view returns (address) {
+        return createdLaunchPools[padNumber];
+    }
+
+    // function to get number of launchpads created
+    function getNoOfLaunchPads() external view returns (uint256) {
+        return poolCount;
+    }
 
     // function to get the launchpad name
     function getPadName(

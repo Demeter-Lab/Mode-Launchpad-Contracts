@@ -2,8 +2,8 @@
 
 pragma solidity ^0.8.0;
 
-import {SafeMath} from "./SafeMath.sol";
 import "./IERC20.sol";
+import "./SafeMath.sol";
 
 contract Launchpad {
     using SafeMath for uint256;
@@ -44,6 +44,7 @@ contract Launchpad {
     }
 
     function initializer(
+        address _owner,
         address _tokenAddress,
         uint256 _price,
         uint256 _minInvestment,
@@ -57,6 +58,8 @@ contract Launchpad {
         isInitialized = true;
 
         memeCoinToken = IERC20(_tokenAddress);
+
+        owner = _owner;
         tokenPrice = _price;
         minInvestment = _minInvestment;
         maxInvestment = _maxInvestment;
@@ -92,11 +95,16 @@ contract Launchpad {
         return balance;
     }
 
+    function getIsSaleActive() external view returns (bool) {
+        bool status = isSaleActive;
+        return status;
+    }
+
     ///////////////////////////////////////////////////////////////////////////////////
 
     ////////////////////////// WRITABLE FUNCTIONS ////////////////////////////////////
     function startSale() external onlyOwner {
-        require(isSaleActive, "Sale is already active");
+        require(!isSaleActive, "Sale is already active");
         isSaleActive = true;
         // setting the sale start time as the time in which the function is called
         saleStartTime = block.timestamp;

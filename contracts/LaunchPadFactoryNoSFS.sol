@@ -1,16 +1,26 @@
-// SPDX-License-Identifier: SEE LICENSE IN LICENSE
+// SPDX-License-Identifier: MIT
 
 pragma solidity ^0.8.0;
 
 import "./Launchpad.sol";
 
 contract LaunchPadFactoryNoSFS {
+    address public owner;
     mapping(uint256 => address) public createdLaunchPools;
     uint256 public poolCount;
 
     event LaunchPoolCreated(address indexed launchPoolAddress);
 
+    modifier onlyOwner() {
+        require(
+            msg.sender == owner,
+            "Only the contract owner can call this function"
+        );
+        _;
+    }
+
     constructor() {
+        owner = msg.sender;
         // sfs Mainnet Contract= 0x8680CEaBcb9b56913c519c069Add6Bc3494B7020
         // Register sfsContract = Register(
         //     0xBBd707815a7F7eb6897C7686274AFabd7B579Ff6
@@ -20,16 +30,18 @@ contract LaunchPadFactoryNoSFS {
 
     // factory deploy function
     function deploy(
+        address _owner,
         address _tokenAddress,
         uint256 _price,
         uint256 _minInvestment,
         uint256 _maxInvestment,
         string memory _poolName,
         uint256 _durationInDays
-    ) external {
+    ) external onlyOwner {
         bytes memory bytecode = type(Launchpad).creationCode;
         bytes32 salt = keccak256(
             abi.encodePacked(
+                _owner,
                 _tokenAddress,
                 _price,
                 _minInvestment,
@@ -54,6 +66,7 @@ contract LaunchPadFactoryNoSFS {
         }
 
         Launchpad(launchPoolAddress).initializer(
+            _owner,
             _tokenAddress,
             _price,
             _minInvestment,
@@ -135,6 +148,13 @@ contract LaunchPadFactoryNoSFS {
     ) external view returns (uint256) {
         uint256 padBalance = Launchpad(_padAddress).getContractBalance();
         return padBalance;
+    }
+
+    function getPadSaleStatus(
+        address _padAddress
+    ) external view returns (bool) {
+        bool status = Launchpad(_padAddress).getIsSaleActive();
+        return status;
     }
 
     // *****************************************************************************//
