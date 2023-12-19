@@ -3,8 +3,12 @@ const {
   abi: LaunchPadABI,
 } = require("../../artifacts/contracts/Launchpad.sol/Launchpad.json");
 const {
+  abi: FactoryABI,
+} = require("../../artifacts/contracts/LaunchPadFactoryNoSFS.sol/LaunchPadFactoryNoSFS.json");
+const {
   MODE_TESTNET_TOKEN_CA,
   SEPOLIA_TESTNET_TOKEN_CA,
+  SEPOLIA_LAUNCHPAD_FACTORY_CA,
 } = require("../../constants/constants");
 
 const padAddress = "0xceb09DCdd87476946221a5AE56f20Fdda377BB08";
@@ -39,7 +43,12 @@ async function getisSaleDurationElapsed() {
 // **************** WRITABLE FUNCTIONS ************************** //
 
 // buyTokens
-// function to buy tokens [Participate in the launch pad]
+/**
+ * function to buy tokens [Participate in the launch pad
+ * @param {*} amount is the amount of tokens to be purchased
+ * @notice ENSURE Launchpad HAS ENOUGH TOKEN BALANCE
+ * @returns true if the purchase is successful and false if not
+ */
 async function callBuyTokens(amount) {
   try {
     const [signer] = await hre.ethers.getSigners();
@@ -51,14 +60,30 @@ async function callBuyTokens(amount) {
       signer
     );
 
+    // instantialize the factory contract
+    const FactoryContract = new ethers.Contract(
+      SEPOLIA_LAUNCHPAD_FACTORY_CA,
+      FactoryABI,
+      signer
+    );
+
     // Convert amount to ethers and calculate the equivalent value
     console.log("Calling BuyTokens...");
 
-    // const amountInWei = await ethers.utils.parseEther(amount).toString();
-    const buyTokens = await LaunchpadContract.buyTokens(1, {
-      value: "10",
+    // calculating the tokenPrice proportionate to the price of one token in Ether
+    const tokenPrice = await FactoryContract.getTokenPrice(padAddress);
+
+    // conert token amount to wei
+    const amountInWei = await ethers.utils.parseEther(amount.toString());
+    const valueInWei = amountInWei.mul(tokenPrice);
+
+    // Call the buyTokens function on the Launchpad contract
+    const buyTokens = await LaunchpadContract.buyTokens(amountInWei, {
+      value: valueInWei,
     });
     await buyTokens.wait(1);
+
+    console.log("Purchase successful!");
 
     return true;
   } catch (err) {
