@@ -4,11 +4,12 @@ const padAddress = "0x8b127f3B2f5Ba69e731fa31CBdc03e8C8Fc26D16";
 /**
  *
 // function to deploy/create a new LaunchPad
- * @param {*} FactoryContract PASS THE INSTANTIALIZED Factory as an argument
+/**
+ *
  * @param {*} tokenAddress ERC20 token to be launched in the pad
- * @param {*} price price at which token is to be sold
- * @param {*} minInvestment soft cap for the launchpad
- * @param {*} maxInvestment hard cap for the launchpad
+ * @param {*} price price at which token is to be sold [ether equivalent]
+ * @param {*} minInvestment soft cap for the launchpad [in ETH value: 0.1, 0.01, 1, etc ]
+ * @param {*} maxInvestment hard cap for the launchpad [in ETH value: 0.1, 0.01, 1, etc ]
  * @param {*} poolName launchpad name
  * @param {*} durationInDays number of days to run launchpad
  */
@@ -16,13 +17,18 @@ export async function deployNewLaunchPad(
   FactoryContract,
   tokenAddress,
   owner,
-  price,
-  minInvestment,
-  maxInvestment,
+  _price,
+  _minInvestment,
+  _maxInvestment,
   poolName,
   durationInDays
 ) {
   try {
+    // convert the inputed amounts to 18 decimals
+    const price = _price * 10 ** 18;
+    const minInvestment = _minInvestment * 10 ** 18;
+    const maxInvestment = _maxInvestment * 10 ** 18;
+
     // call the deploy function on the factory contract
     const deployLaunchPad = await FactoryContract.deploy(
       tokenAddress,
