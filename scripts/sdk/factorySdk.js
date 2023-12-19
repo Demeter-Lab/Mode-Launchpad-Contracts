@@ -1,5 +1,5 @@
 // sample pad address deployed on sepolia
-const padAddress = "0x71B7319466efB8c0Ed8f9C8E0565fB44F7688453";
+const padAddress = "0x8b127f3B2f5Ba69e731fa31CBdc03e8C8Fc26D16";
 
 /**
  *
@@ -15,6 +15,7 @@ const padAddress = "0x71B7319466efB8c0Ed8f9C8E0565fB44F7688453";
 export async function deployNewLaunchPad(
   FactoryContract,
   tokenAddress,
+  owner,
   price,
   minInvestment,
   maxInvestment,
@@ -25,6 +26,7 @@ export async function deployNewLaunchPad(
     // call the deploy function on the factory contract
     const deployLaunchPad = await FactoryContract.deploy(
       tokenAddress,
+      owner,
       price,
       minInvestment,
       maxInvestment,
