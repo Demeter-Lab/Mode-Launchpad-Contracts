@@ -13,7 +13,7 @@ const {
 } = require("../../constants/constants");
 
 // const padAddress = "0xceb09DCdd87476946221a5AE56f20Fdda377BB08";
-const padAddress = "0x8b127f3B2f5Ba69e731fa31CBdc03e8C8Fc26D16";
+const padAddress = "0xbC52c9bA28DAC362646fBe4B9ecACC43cB0A61cC";
 
 // function to deploy/create a new LaunchPad
 /**
@@ -26,8 +26,8 @@ const padAddress = "0x8b127f3B2f5Ba69e731fa31CBdc03e8C8Fc26D16";
  * @param {*} durationInDays number of days to run launchpad
  */
 async function deployNewLaunchPad(
-  tokenAddress,
   owner,
+  tokenAddress,
   _price,
   _minInvestment,
   _maxInvestment,
@@ -36,11 +36,19 @@ async function deployNewLaunchPad(
 ) {
   try {
     // convert the inputed amounts to 18 decimals
-    const price = _price * 10 ** 18;
-    const minInvestment = _minInvestment * 10 ** 18;
-    const maxInvestment = _maxInvestment * 10 ** 18;
+    const price = ethers.utils.parseUnits(_price.toString(), 18);
+    const minInvestment = ethers.utils.parseUnits(
+      _minInvestment.toString(),
+      18
+    );
+    const maxInvestment = ethers.utils.parseUnits(
+      _maxInvestment.toString(),
+      18
+    );
 
     const [signer] = await hre.ethers.getSigners();
+
+    console.log(_price, minInvestment, maxInvestment);
 
     // instantialize the factory contract
     const FactoryContract = new ethers.Contract(
@@ -53,9 +61,9 @@ async function deployNewLaunchPad(
 
     // call the deploy function on the factory contract
     const deployLaunchPad = await FactoryContract.deploy(
-      tokenAddress,
       owner,
-      price,
+      tokenAddress,
+      _price,
       minInvestment,
       maxInvestment,
       poolName,
@@ -74,10 +82,10 @@ async function deployNewLaunchPad(
 //   "0x5312296ad75C7f95A9e19bD8adF1617402b3e703",
 //   SEPOLIA_TESTNET_TOKEN_CA,
 //   1,
-//   1,
+//   0.1,
 //   5,
 //   "Launch Mode",
-//   1
+//   30
 // );
 
 async function getPadAddress(padNumber) {
@@ -101,7 +109,7 @@ async function getPadAddress(padNumber) {
     console.log(err.message);
   }
 }
-// getPadAddress(1);
+getPadAddress(1);
 
 async function getNoOfLaunchPads() {
   try {
@@ -125,7 +133,7 @@ async function getNoOfLaunchPads() {
     console.error(err.message);
   }
 }
-getNoOfLaunchPads();
+// getNoOfLaunchPads();
 
 async function getPadName(padAddress) {
   try {
@@ -195,7 +203,7 @@ async function getPadMaxCap(padAddress) {
     console.log(err.message);
   }
 }
-// getPadMaxCap(padAddress);
+// getPadMaxCap(padAddre0s);
 
 async function getPadMinCap(padAddress) {
   try {

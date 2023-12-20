@@ -12,7 +12,7 @@ const {
 } = require("../../constants/constants");
 
 // launchapd address sample
-const padAddress = "0xceb09DCdd87476946221a5AE56f20Fdda377BB08";
+const padAddress = "0x996681F4d016963d367BC3556e1DA784225C1Cc9";
 
 // [VIEW FUNCTION]
 
@@ -77,11 +77,14 @@ async function callBuyTokens(amount) {
     console.log("Calling BuyTokens...");
 
     // calculating the tokenPrice proportionate to the price of one token in Ether
-    const tokenPrice = await FactoryContract.getTokenPrice(padAddress);
+    const tokenPrice = await FactoryContract.getPadPrice(padAddress);
 
     // conert token amount to wei
     const amountInWei = await ethers.utils.parseEther(amount.toString());
     const valueInWei = amountInWei.mul(tokenPrice);
+    // .div(ethers.BigNumber.from("10").pow("18"));
+
+    console.log(amountInWei.toString(), valueInWei);
 
     // Call the buyTokens function on the Launchpad contract
     const buyTokens = await LaunchpadContract.buyTokens(amountInWei, {
@@ -97,17 +100,23 @@ async function callBuyTokens(amount) {
     return false;
   }
 }
-callBuyTokens(1);
+// callBuyTokens(1);
 
 /**
- * funtion for a user to claim available Tokens gotten from the pool
- * @param {*} LaunchpadContract the launchpad contract instance
- * @returns {boolean} true or false if claim is successful or not
+ *  funtion for a user to claim available Tokens gotten from the pool
  */
-async function callClaimTokens(LaunchpadContract) {
+async function callClaimTokens() {
   try {
-    console.log("Calling claimTokens...");
+    const [signer] = await hre.ethers.getSigners();
 
+    // instantialize the Launchpad contract
+    const LaunchpadContract = new ethers.Contract(
+      padAddress,
+      LaunchPadABI,
+      signer
+    );
+
+    console.log("Calling claimTokens...");
     const claimTokens = await LaunchpadContract.claimTokens();
     await claimTokens.wait(1);
 
@@ -124,13 +133,19 @@ async function callClaimTokens(LaunchpadContract) {
 /**
  * function to startSale
  * @notice [ONLY CONTRACT OWNER CAN CALL]
- * @param {*} LaunchpadContract the launchpad contract instance
- * @returns {boolean} true or false if sale is started or not
  */
-async function callStartSale(LaunchpadContract) {
+async function callStartSale() {
   try {
-    console.log("Calling Start sale...");
+    const [signer] = await hre.ethers.getSigners();
 
+    // instantialize the Launchpad contract
+    const LaunchpadContract = new ethers.Contract(
+      padAddress,
+      LaunchPadABI,
+      signer
+    );
+
+    console.log("Calling Start sale...");
     const startSale = await LaunchpadContract.startSale();
     await startSale.wait(1);
 
@@ -147,16 +162,18 @@ async function callStartSale(LaunchpadContract) {
  * function to stop sale
  * @notice [ONLY CONTRACT OWNER CAN CALL]
  */
-/**
- * function to startSale
- * @notice [ONLY CONTRACT OWNER CAN CALL]
- * @param {*} LaunchpadContract the launchpad contract instance
- * @returns {boolean} true or false if sale is stopped or active
- */
-async function callStopSale(LaunchpadContract) {
+async function callStopSale() {
   try {
-    console.log("Calling StopSale...");
+    const [signer] = await hre.ethers.getSigners();
 
+    // instantialize the Launchpad contract
+    const LaunchpadContract = new ethers.Contract(
+      padAddress,
+      LaunchPadABI,
+      signer
+    );
+
+    console.log("Calling StopSale...");
     const stopSale = await LaunchpadContract.stopSale();
     await stopSale.wait(1);
 
@@ -170,14 +187,21 @@ async function callStopSale(LaunchpadContract) {
 // callStopSale();
 
 /**
- * function to withdraw funds [ONLY CONTRACT OWNER CAN CALL]
- * @param {*} LaunchpadContract the launchpad contract instance
+ *  function to withdraw funds [ONLY CONTRACT OWNER CAN CALL]
  * @notice [ONLY CONTRACT OWNER CAN CALL]
  */
-async function callWithdrawFunds(LaunchpadContract) {
+async function callWithdrawFunds() {
   try {
-    console.log("Calling withdraw funds...");
+    const [signer] = await hre.ethers.getSigners();
 
+    // instantialize the Launchpad contract
+    const LaunchpadContract = new ethers.Contract(
+      padAddress,
+      LaunchPadABI,
+      signer
+    );
+
+    console.log("Calling withdraw funds...");
     const withdrawFunds = await LaunchpadContract.withdrawFunds();
     withdrawFunds.wait(1);
 
@@ -188,17 +212,24 @@ async function callWithdrawFunds(LaunchpadContract) {
     return false;
   }
 }
+// callWithdrawFunds();
 
 /**
  *  function to withdraw unsold tokens
- * @param {*} LaunchpadContract the launchpad contract instance
  * @notice [ONLY CONTRACT OWNER CAN CALL]
- * @returns {boolean} true or false if withdrawal is successful or not
  */
-async function callWithdrawUnsoldTokens(LaunchpadContract) {
+async function callWithdrawUnsoldTokens() {
   try {
-    console.log("Calling withdrawUnsoldTokens...");
+    const [signer] = await hre.ethers.getSigners();
 
+    // instantialize the Launchpad contract
+    const LaunchpadContract = new ethers.Contract(
+      padAddress,
+      LaunchPadABI,
+      signer
+    );
+
+    console.log("Calling withdrawUnsoldTokens...");
     const withdrawUnsoldTokens = await LaunchpadContract.withdrawUnsoldTokens();
     await withdrawUnsoldTokens.wait(1);
 

@@ -11,7 +11,7 @@ const {
   SEPOLIA_LAUNCHPAD_FACTORY_CA,
 } = require("../../constants/constants");
 
-const padAddress = "0xceb09DCdd87476946221a5AE56f20Fdda377BB08";
+const padAddress = "0xbC52c9bA28DAC362646fBe4B9ecACC43cB0A61cC";
 
 // [VIEW FUNCTION]
 
@@ -71,11 +71,14 @@ async function callBuyTokens(amount) {
     console.log("Calling BuyTokens...");
 
     // calculating the tokenPrice proportionate to the price of one token in Ether
-    const tokenPrice = await FactoryContract.getTokenPrice(padAddress);
+    const tokenPrice = await FactoryContract.getPadPrice(padAddress);
 
     // conert token amount to wei
     const amountInWei = await ethers.utils.parseEther(amount.toString());
     const valueInWei = amountInWei.mul(tokenPrice);
+    // .div(ethers.BigNumber.from("10").pow("18"));
+
+    console.log(amountInWei.toString(), valueInWei);
 
     // Call the buyTokens function on the Launchpad contract
     const buyTokens = await LaunchpadContract.buyTokens(amountInWei, {
@@ -91,7 +94,7 @@ async function callBuyTokens(amount) {
     return false;
   }
 }
-callBuyTokens(1);
+// callBuyTokens(1);
 
 /**
  *  funtion for a user to claim available Tokens gotten from the pool
@@ -203,6 +206,7 @@ async function callWithdrawFunds() {
     return false;
   }
 }
+// callWithdrawFunds();
 
 /**
  *  function to withdraw unsold tokens
