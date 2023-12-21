@@ -63,13 +63,7 @@
       "type": "event"
     },
     {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "_amount",
-          "type": "uint256"
-        }
-      ],
+      "inputs": [],
       "name": "buyTokens",
       "outputs": [],
       "stateMutability": "payable",
@@ -231,6 +225,19 @@
     {
       "inputs": [],
       "name": "isSaleDurationElapsed",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "isSaleEnded",
       "outputs": [
         {
           "internalType": "bool",
