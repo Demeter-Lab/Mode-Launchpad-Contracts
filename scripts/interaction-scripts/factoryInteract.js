@@ -157,7 +157,7 @@ async function getPadName(padAddress) {
     console.log(err.message);
   }
 }
-// getPadName(padAddress);
+getPadName(padAddress);
 
 async function getPadDuration(padAddress) {
   try {
