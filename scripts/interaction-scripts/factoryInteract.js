@@ -1,19 +1,14 @@
 const { ethers } = require("hardhat");
-// const {
-//   abi: FactoryABI,
-// } = require("../../artifacts/contracts/LaunchPadFactory.sol/LaunchPadFactory.json");
 const {
   abi: FactoryABI,
-} = require("../../artifacts/contracts/LaunchPadFactoryNoSFS.sol/LaunchPadFactoryNoSFS.json");
+} = require("../../artifacts/contracts/LaunchPadFactory.sol/LaunchPadFactory.json");
+
 const {
   LAUNCHPAD_FACTORY_CA,
-  MODE_TESTNET_TOKEN_CA,
-  SEPOLIA_LAUNCHPAD_FACTORY_CA,
-  SEPOLIA_TESTNET_TOKEN_CA,
+  DEVPAD_TOKEN_CA,
 } = require("../../constants/constants");
 
-// const padAddress = "0xceb09DCdd87476946221a5AE56f20Fdda377BB08";
-const padAddress = "0xbC52c9bA28DAC362646fBe4B9ecACC43cB0A61cC";
+const padAddress = "0x1e911c06B7572982216B73ab310fdD2A354aE845";
 
 // function to deploy/create a new LaunchPad
 /**
@@ -52,7 +47,7 @@ async function deployNewLaunchPad(
 
     // instantialize the factory contract
     const FactoryContract = new ethers.Contract(
-      SEPOLIA_LAUNCHPAD_FACTORY_CA,
+      LAUNCHPAD_FACTORY_CA,
       FactoryABI,
       signer
     );
@@ -63,7 +58,7 @@ async function deployNewLaunchPad(
     const deployLaunchPad = await FactoryContract.deploy(
       owner,
       tokenAddress,
-      _price,
+      price,
       minInvestment,
       maxInvestment,
       poolName,
@@ -79,11 +74,11 @@ async function deployNewLaunchPad(
 }
 
 // deployNewLaunchPad(
-//   "0x5312296ad75C7f95A9e19bD8adF1617402b3e703",
-//   SEPOLIA_TESTNET_TOKEN_CA,
-//   1,
-//   0.1,
-//   5,
+//   "0x1339514086Fc15C5e38AF4E0407C469Ca3911992",
+//   DEVPAD_TOKEN_CA,
+//   0.0000268157,
+//   0.0225,
+//   0.148,
 //   "Launch Mode",
 //   30
 // );
@@ -94,7 +89,7 @@ async function getPadAddress(padNumber) {
 
     // instantialize the factory contract
     const FactoryContract = new ethers.Contract(
-      SEPOLIA_LAUNCHPAD_FACTORY_CA,
+      LAUNCHPAD_FACTORY_CA,
       FactoryABI,
       signer
     );
@@ -109,7 +104,7 @@ async function getPadAddress(padNumber) {
     console.log(err.message);
   }
 }
-getPadAddress(1);
+// getPadAddress(1);
 
 async function getNoOfLaunchPads() {
   try {
@@ -117,7 +112,7 @@ async function getNoOfLaunchPads() {
 
     // instantialize the factory contract
     const FactoryContract = new ethers.Contract(
-      SEPOLIA_LAUNCHPAD_FACTORY_CA,
+      LAUNCHPAD_FACTORY_CA,
       FactoryABI,
       signer
     );
@@ -141,7 +136,7 @@ async function getPadName(padAddress) {
 
     // instantialize the factory contract
     const FactoryContract = new ethers.Contract(
-      SEPOLIA_LAUNCHPAD_FACTORY_CA,
+      LAUNCHPAD_FACTORY_CA,
       FactoryABI,
       signer
     );
@@ -157,7 +152,7 @@ async function getPadName(padAddress) {
     console.log(err.message);
   }
 }
-getPadName(padAddress);
+// getPadName(padAddress);
 
 async function getPadDuration(padAddress) {
   try {
@@ -165,7 +160,7 @@ async function getPadDuration(padAddress) {
 
     // instantialize the factory contract
     const FactoryContract = new ethers.Contract(
-      SEPOLIA_LAUNCHPAD_FACTORY_CA,
+      LAUNCHPAD_FACTORY_CA,
       FactoryABI,
       signer
     );
@@ -188,7 +183,7 @@ async function getPadMaxCap(padAddress) {
 
     // instantialize the factory contract
     const FactoryContract = new ethers.Contract(
-      SEPOLIA_LAUNCHPAD_FACTORY_CA,
+      LAUNCHPAD_FACTORY_CA,
       FactoryABI,
       signer
     );
@@ -211,7 +206,7 @@ async function getPadMinCap(padAddress) {
 
     // instantialize the factory contract
     const FactoryContract = new ethers.Contract(
-      SEPOLIA_LAUNCHPAD_FACTORY_CA,
+      LAUNCHPAD_FACTORY_CA,
       FactoryABI,
       signer
     );
@@ -234,7 +229,7 @@ async function getUnsoldTokensAmount(padAddress) {
 
     // instantialize the factory contract
     const FactoryContract = new ethers.Contract(
-      SEPOLIA_LAUNCHPAD_FACTORY_CA,
+      LAUNCHPAD_FACTORY_CA,
       FactoryABI,
       signer
     );
@@ -257,7 +252,7 @@ async function getUserTokenPurchase(padAddress) {
 
     // instantialize the factory contract
     const FactoryContract = new ethers.Contract(
-      SEPOLIA_LAUNCHPAD_FACTORY_CA,
+      LAUNCHPAD_FACTORY_CA,
       FactoryABI,
       signer
     );
@@ -281,7 +276,7 @@ async function getPadPrice(padAddress) {
 
     // instantialize the factory contract
     const FactoryContract = new ethers.Contract(
-      SEPOLIA_LAUNCHPAD_FACTORY_CA,
+      LAUNCHPAD_FACTORY_CA,
       FactoryABI,
       signer
     );
@@ -304,7 +299,7 @@ async function getPadContractBalance(padAddress) {
 
     // instantialize the factory contract
     const FactoryContract = new ethers.Contract(
-      SEPOLIA_LAUNCHPAD_FACTORY_CA,
+      LAUNCHPAD_FACTORY_CA,
       FactoryABI,
       signer
     );
@@ -330,7 +325,7 @@ async function getPadSaleStatus() {
 
     // instantialize the factory contract
     const FactoryContract = new ethers.Contract(
-      SEPOLIA_LAUNCHPAD_FACTORY_CA,
+      LAUNCHPAD_FACTORY_CA,
       FactoryABI,
       signer
     );

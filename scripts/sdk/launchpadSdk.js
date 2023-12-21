@@ -11,8 +11,8 @@ const {
   SEPOLIA_LAUNCHPAD_FACTORY_CA,
 } = require("../../constants/constants");
 
-// launchapd address sample
-const padAddress = "0x996681F4d016963d367BC3556e1DA784225C1Cc9";
+// launchpad address sample
+const padAddress = "0x1e911c06B7572982216B73ab310fdD2A354aE845";
 
 // [VIEW FUNCTION]
 

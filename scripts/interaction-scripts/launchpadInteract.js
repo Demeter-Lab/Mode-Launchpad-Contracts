@@ -4,14 +4,13 @@ const {
 } = require("../../artifacts/contracts/Launchpad.sol/Launchpad.json");
 const {
   abi: FactoryABI,
-} = require("../../artifacts/contracts/LaunchPadFactoryNoSFS.sol/LaunchPadFactoryNoSFS.json");
+} = require("../../artifacts/contracts/LaunchPadFactory.sol/LaunchPadFactory.json");
 const {
   MODE_TESTNET_TOKEN_CA,
-  SEPOLIA_TESTNET_TOKEN_CA,
-  SEPOLIA_LAUNCHPAD_FACTORY_CA,
+  LAUNCHPAD_FACTORY_CA,
 } = require("../../constants/constants");
 
-const padAddress = "0xbC52c9bA28DAC362646fBe4B9ecACC43cB0A61cC";
+const padAddress = "0x1e911c06B7572982216B73ab310fdD2A354aE845";
 
 // [VIEW FUNCTION]
 
@@ -45,11 +44,11 @@ async function getisSaleDurationElapsed() {
 // buyTokens
 /**
  * function to buy tokens [Participate in the launch pad
- * @param {*} amount is the amount of tokens to be purchased
+ * @param {*} amountOfEther is the amount of Ether the user intends to send
  * @notice ENSURE Launchpad HAS ENOUGH TOKEN BALANCE
  * @returns true if the purchase is successful and false if not
  */
-async function callBuyTokens(amount) {
+async function callBuyTokens(amountOfEther) {
   try {
     const [signer] = await hre.ethers.getSigners();
 
@@ -62,7 +61,7 @@ async function callBuyTokens(amount) {
 
     // instantialize the factory contract
     const FactoryContract = new ethers.Contract(
-      SEPOLIA_LAUNCHPAD_FACTORY_CA,
+      LAUNCHPAD_FACTORY_CA,
       FactoryABI,
       signer
     );
@@ -73,15 +72,15 @@ async function callBuyTokens(amount) {
     // calculating the tokenPrice proportionate to the price of one token in Ether
     const tokenPrice = await FactoryContract.getPadPrice(padAddress);
 
-    // conert token amount to wei
-    const amountInWei = await ethers.utils.parseEther(amount.toString());
-    const valueInWei = amountInWei.mul(tokenPrice);
+    // convert token amount to wei
+    const valueInWei = await ethers.utils.parseEther(amountOfEther.toString());
+    // const valueInWei = amountInWei.mul(tokenPrice);
     // .div(ethers.BigNumber.from("10").pow("18"));
 
-    console.log(amountInWei.toString(), valueInWei);
+    console.log(valueInWei);
 
     // Call the buyTokens function on the Launchpad contract
-    const buyTokens = await LaunchpadContract.buyTokens(amountInWei, {
+    const buyTokens = await LaunchpadContract.buyTokens({
       value: valueInWei,
     });
     await buyTokens.wait(1);
@@ -94,7 +93,7 @@ async function callBuyTokens(amount) {
     return false;
   }
 }
-// callBuyTokens(1);
+callBuyTokens(0.1);
 
 /**
  *  funtion for a user to claim available Tokens gotten from the pool
