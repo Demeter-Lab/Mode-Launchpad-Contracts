@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.9;
 
 import "./Launchpad.sol";
 
@@ -89,11 +89,6 @@ contract LaunchPadFactoryNoSFS {
         return createdLaunchPools[padNumber];
     }
 
-    // function to get number of launchpads created
-    function getNoOfLaunchPads() external view returns (uint256) {
-        return poolCount;
-    }
-
     // function to get the launchpad name
     function getPadName(
         address _padAddress
@@ -156,7 +151,4 @@ contract LaunchPadFactoryNoSFS {
         bool status = Launchpad(_padAddress).getIsSaleActive();
         return status;
     }
-
-    // *****************************************************************************//
-    // //////////////////////////////////////////////////////////////////////////// //
 }

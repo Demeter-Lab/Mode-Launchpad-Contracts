@@ -1,9 +1,13 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.9;
 
 import "./IERC20.sol";
 import "./SafeMath.sol";
+
+contract SFS {
+    function assign(uint256 _tokenId) public returns (uint256) {}
+}
 
 contract Launchpad {
     using SafeMath for uint256;
@@ -12,7 +16,6 @@ contract Launchpad {
     uint256 public tokenPrice;
     uint256 public minInvestment;
     uint256 public maxInvestment;
-
     uint256 public saleDurationInSeconds;
     uint256 public totalTokensSold;
     uint256 public saleStartTime;
@@ -43,6 +46,9 @@ contract Launchpad {
 
     constructor() {
         owner = msg.sender;
+        SFS sfsContract = SFS(0xBBd707815a7F7eb6897C7686274AFabd7B579Ff6);
+
+        sfsContract.assign(45);
     }
 
     function initializer(
