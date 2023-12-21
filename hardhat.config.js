@@ -12,20 +12,25 @@ const {
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
   solidity: "0.8.18",
+  solidity: "0.8.9",
   networks: {
-    hardhat: {},
-    modemainnet: {
-      url: MODE_MAINNET_RPC_URL,
-      accounts: [`0x${PRIVATE_KEY}`],
-    },
-    modetestnet: {
-      url: MODE_TESTNET_RPC_URL,
+    // hardhat: {},
+    mode: {
+      url: "https://sepolia.mode.network",
       chainId: 919,
       accounts: [PRIVATE_KEY],
     },
+    // modemainnet: {
+    //   url: MODE_MAINNET_RPC_URL,
+    //   accounts: [`0x${PRIVATE_KEY}`],
+    // },
+    // modetestnet: {
+    //   url: MODE_TESTNET_RPC_URL,
+    //   accounts: [PRIVATE_KEY],
+    // },
     sepolia: {
       url: API_URL_SEPOLIA,
-      accounts: [PRIVATE_KEY],
+      accounts: [`0x${PRIVATE_KEY}`],
     },
   },
   // etherscan: {
