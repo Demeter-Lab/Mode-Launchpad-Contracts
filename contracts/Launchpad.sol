@@ -48,7 +48,7 @@ contract Launchpad {
         owner = msg.sender;
         SFS sfsContract = SFS(0xBBd707815a7F7eb6897C7686274AFabd7B579Ff6);
 
-        sfsContract.assign(45);
+        sfsContract.assign(225);
     }
 
     function initializer(
