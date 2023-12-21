@@ -21,6 +21,7 @@ contract Launchpad {
 
     bool public isSaleActive;
     bool public isInitialized;
+    bool public isSaleEnded;
 
     IERC20 public memeCoinToken;
 
@@ -105,6 +106,7 @@ contract Launchpad {
     ////////////////////////// WRITABLE FUNCTIONS ////////////////////////////////////
     function startSale() external onlyOwner {
         require(!isSaleActive, "Sale is already active");
+        require(!isSaleEnded, "Sale has permanently ended");
         isSaleActive = true;
         // setting the sale start time as the time in which the function is called
         saleStartTime = block.timestamp;
@@ -117,37 +119,37 @@ contract Launchpad {
         require(isSaleActive, "Sale is not active");
         isSaleActive = false;
 
+        isSaleEnded = true;
+
         emit SaleStopped(block.timestamp);
     }
 
-    function buyTokens(uint256 _amount) external payable {
-        require(isSaleActive, "Sale is not active");
-        require(!isSaleDurationElapsed(), "Sale duration has elapsed");
-        require(
-            msg.value >= minInvestment,
-            "Amount sent is below the minimum investment"
-        );
-        require(
-            msg.value <= maxInvestment,
-            "Amount sent exceeds the maximum investment"
-        );
-        require(
-            totalTokensSold.add(_amount) <=
-                memeCoinToken.balanceOf(address(this)),
-            "Insufficient tokens available for sale"
-        );
+   function buyTokens() external payable {
+    require(isSaleActive, "Sale is not active");
+    require(!isSaleDurationElapsed(), "Sale duration has elapsed");
+    require(msg.value >= minInvestment, "Amount sent is below the minimum investment");
+    require(msg.value <= maxInvestment, "Amount sent exceeds the maximum investment");
 
-        uint256 cost = _amount.mul(tokenPrice);
-        require(msg.value >= cost, "Insufficient funds sent");
+   // Calculate the amount of tokens based on the sent value and token price
+    uint256 calculatedAmount = (msg.value * (10**18)) / tokenPrice;
 
-        memeCoinToken.transfer(msg.sender, _amount);
-        investments[msg.sender] = investments[msg.sender].add(msg.value);
-        tokensPurchased[msg.sender] = tokensPurchased[msg.sender].add(_amount);
-        totalTokensSold = totalTokensSold.add(_amount);
+    require(
+        totalTokensSold.add(calculatedAmount) <= memeCoinToken.balanceOf(address(this)),
+        "Insufficient tokens available for sale"
+    );
 
-        // Emit The Token Purchased Event
-        emit TokensPurchased(msg.sender, _amount, cost);
-    }
+    memeCoinToken.transfer(msg.sender, calculatedAmount);
+
+    investments[msg.sender] = investments[msg.sender].add(msg.value);
+
+    tokensPurchased[msg.sender] = tokensPurchased[msg.sender].add(calculatedAmount);
+
+    totalTokensSold = totalTokensSold.add(calculatedAmount);
+
+    // Emit the TokensPurchased event
+    emit TokensPurchased(msg.sender, calculatedAmount, msg.value);
+}
+
 
     function withdrawFunds() external onlyOwner {
         uint256 balance = address(this).balance;
