@@ -1,5 +1,6 @@
 require("@nomicfoundation/hardhat-toolbox");
-// require("@nomicfoundation/hardhat-verify");
+require("@nomiclabs/hardhat-etherscan");
+
 require("dotenv").config();
 
 const {
@@ -24,10 +25,6 @@ module.exports = {
     //   url: MODE_MAINNET_RPC_URL,
     //   accounts: [`0x${PRIVATE_KEY}`],
     // },
-    // modetestnet: {
-    //   url: MODE_TESTNET_RPC_URL,
-    //   accounts: [PRIVATE_KEY],
-    // },
     sepolia: {
       url: API_URL_SEPOLIA,
       accounts: [`0x${PRIVATE_KEY}`],
@@ -35,13 +32,20 @@ module.exports = {
   },
   // etherscan: {
   //   apiKey: {
-  //     polygonMumbai: POLYGONSCAN_API_URL,
-  //     polygon: POLYGONSCAN_API_URL,
-  //     goerli: ETHERSCAN_API_URL,
-  //     sepolia: ETHERSCAN_API_URL,
-  //     mainnet: ETHERSCAN_API_URL,
+  //     tenet: process.env.TENET_API,
   //   },
+  //   customChains: [
+  //     {
+  //       network: "tenet",
+  //       chainId: 155,
+  //       urls: {
+  //         apiURL: process.env.TENET_API,
+  //         browserURL: "https://testnet.tenetscan.io/",
+  //       },
+  //     },
+  //   ],
   // },
+  // npx hardhat verify --network <network> DEPLOYED_CONTRACT_ADDRESS "Constructor argument 1"
   sourcify: {
     enabled: true,
   },

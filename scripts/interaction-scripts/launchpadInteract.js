@@ -12,7 +12,8 @@ const {
 
 // const LAUNCHPAD_FACTORY_CA = "0xFB7c73CD1282b8BE80190c4454F4322648F056FD";
 // const DEVPAD_TOKEN_CA = "0xB7930204734d1c140970D271e64768bA85C40628";
-const padAddress = "0x1e911c06B7572982216B73ab310fdD2A354aE845";
+// const padAddress = "0x1e911c06B7572982216B73ab310fdD2A354aE845";
+const padAddress = "0x00a92e4d5732994f69B7055C4c0238aFE002b2BA";
 
 // [VIEW FUNCTION]
 
@@ -95,7 +96,13 @@ async function callBuyTokens(amountOfEther) {
     return false;
   }
 }
-callBuyTokens(0.1);
+
+// async function loopCallBuy() {
+//   for (let i = 0; i < 100; i++) {
+//     await callBuyTokens(0.0021663);
+//   }
+// }
+// loopCallBuy();
 
 /**
  *  funtion for a user to claim available Tokens gotten from the pool

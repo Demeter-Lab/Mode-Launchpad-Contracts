@@ -82,6 +82,24 @@ async function deployNewLaunchPad(
 //   "Launch Mode",
 //   30
 // );
+// deployNewLaunchPad(
+//   "0x1339514086Fc15C5e38AF4E0407C469Ca3911992",
+//   "0x444978D057Cf41a9E44e213FE65f2989766374cd",
+//   0.00043277,
+//   0.0021663,
+//   0.0021663,
+//   "Dev Pad Demo",
+//   1
+// );
+// deployNewLaunchPad(
+//   "0x1339514086Fc15C5e38AF4E0407C469Ca3911992",
+//   "0xF01A21A3dfadC00d343bE31f2C3Af90697c89400",
+//   0.00005196852,
+//   0.256,
+//   0.045,
+//   "Astro Pluto",
+//   30
+// );
 
 async function getPadAddress(padNumber) {
   try {
@@ -104,7 +122,7 @@ async function getPadAddress(padNumber) {
     console.log(err.message);
   }
 }
-// getPadAddress(1);
+getPadAddress(3);
 
 async function getNoOfLaunchPads() {
   try {
